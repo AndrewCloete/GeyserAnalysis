@@ -36,3 +36,5 @@ No small events
 
 #------------------------------------------------- NOTES -----------------------------------------------------
 Drip detect is inverted (So it is actually "GSTATE")
+
+mysqldump -u intelligeyser -h 146.232.128.163 -p GeyserM2M > ~/Geyser/R/mysql_backup/GeyserM2M.sql

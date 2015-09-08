@@ -1,4 +1,4 @@
-geyser_id <- 109
+geyser_id <- 104
 
 sim_filename <- sprintf("~/Geyser/SimulatorOutput/result_%i.csv", geyser_id)
 data_filename <- sprintf("~/Geyser/SimulatorOutput/data_%i.csv", geyser_id)

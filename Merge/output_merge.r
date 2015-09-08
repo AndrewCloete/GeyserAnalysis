@@ -31,7 +31,8 @@ cold_event_count <- length(cold_events$type)-1
 
 all_minutes <- seq(start_time, end_time, by="min")
 midnights <- subset(all_minutes, format(all_minutes, "%H:%M") == "02:00")
-
+print(ln)
+print(sprintf("Results for Geyser: %i", geyser_id))
 print(ln)
 print(sprintf("Detection threshold: %0.1f litres", threshold))
 print(ln)

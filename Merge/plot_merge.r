@@ -100,6 +100,6 @@ s <- s + scale_x_continuous(breaks=seq(0, max_duration+10, round(max_duration, -
 print(s)
 # ---------------------------------------------------------------------------------------------------- #
 
-
+print(sprintf("Plotting to ~/Geyser/Plots/Merge/geyser_%i.pdf", geyser_id))
 dev.off()
 
