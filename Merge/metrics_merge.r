@@ -1,8 +1,8 @@
 ln <- "----------------------------------------------------------------"
 
 # ----------------------------------- Interesting metrics --------------------------------------------- #
-start_time = min(data_serverstamp)
-end_time = max(data_serverstamp)
+start_time = min(geyser_data$server_stamp)
+end_time = max(geyser_data$server_stamp)
 time_dif_hours = as.numeric(end_time - start_time, units = "hours")
 
 max_outlet_temp <- max(geyser_data$t1)

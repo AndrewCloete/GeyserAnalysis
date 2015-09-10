@@ -1,15 +1,15 @@
-flow_dif <- function(accumulative_flow){
+dif <- function(accumulative){
 
 	diff  <- vector()	
 
-	diff[1] <- accumulative_flow[1]
+	diff[1] <- accumulative[1]
 
-	for(i in 2:length(accumulative_flow)){ 
+	for(i in 2:length(accumulative)){ 
 
-		diff[i] <- accumulative_flow[i] - accumulative_flow[i-1]
+		diff[i] <- accumulative[i] - accumulative[i-1]
 		if(diff[i] < 0){
-			print("Warning: Inconsistant accumulative flow data")
-			diff[i] <- -1
+			print("Warning: Inconsistant accumulative data")
+			diff[i] <- 0
 		}
 
 	}
@@ -17,7 +17,7 @@ flow_dif <- function(accumulative_flow){
 	return(diff)
 }
 
-event_detect <- function(timestamps, flow, threshold, type){
+event_detect <- function(timestamps, flow, start_threshold, stop_threshold, type){
 
 	events <- data.frame(start_time = as.numeric(timestamps[1]), volume_counter = 0, duration = 0, mean_flowrate = 0, type = type)
 
@@ -30,7 +30,7 @@ event_detect <- function(timestamps, flow, threshold, type){
 
 		#Wait for event to start
 		if(detect_state==1){
-			if(flow[i] >= threshold){
+			if(flow[i] >= start_threshold){
 				volume_counter <- flow[i]
 				start_time <- timestamps[i]
 				detect_state <- 2
@@ -42,7 +42,7 @@ event_detect <- function(timestamps, flow, threshold, type){
 			running_duration <- as.numeric(timestamps[i]-start_time, units = "secs")/60			
 
 			#Event has finnished
-			if(flow[i] == 0 && running_duration > 0.1){
+			if(flow[i] <= stop_threshold && running_duration > 0.1){
 				#Calculate time difference (duration)
 				#Calulate mean flow rate
 				#Store in matrix

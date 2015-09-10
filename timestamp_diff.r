@@ -9,6 +9,7 @@ timetamp_diff <- function(timestamps){
 		diff <- rbind(diff, c(start, timediff))
 	}
 
-	
+	diff <- rbind(diff, c(start, timediff))
+
 	return(diff)
 }
