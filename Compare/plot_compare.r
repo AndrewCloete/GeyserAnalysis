@@ -33,12 +33,13 @@ for(i in 1:date_count){
 	s <- s + geom_point( aes(size=volume, color = type), show_guide=TRUE) 
 	s <- s + scale_size("Usage volume", range = c(2, 20)) + scale_color_manual (values=c("steelblue2", "tomato"), name="Usage type")
 	s <- s + geom_vline(xintercept = as.numeric(c(period_metrics$start_time[i], period_metrics$end_time[i])), linetype=4, color = "darkgreen")
-	s <- s + geom_text(aes(x=start_time, y=mean_flowrate, label=sprintf("%5.1f",volume), size=2, vjust=-1))
-	s <- s + geom_text(aes(x=start_time, y=mean_flowrate, label=sprintf("%5.1f deg",mean_temp_out), size=2, vjust=4))
-	s <- s + geom_text(aes(x=start_time, y=mean_flowrate, label=sprintf("%5.1f deg",mean_temp_in), size=2, vjust=5))
+#	s <- s + geom_text(aes(x=start_time, y=mean_flowrate, label=sprintf("%5.1f",volume), size=2, vjust=-1))
+	s <- s + geom_text(aes(x=start_time, y=mean_flowrate, label=sprintf("R%5.2f", enthalpy), size=10, vjust=-1))
+	#s <- s + geom_text(aes(x=start_time, y=mean_flowrate, label=sprintf("%5.1f deg",mean_temp_in), size=2, vjust=5))
 	s <- s + labs(x = "Start time", y = "Flowrate [l/min]", title = "Balloon events volume [l] (on Flowrate vs Time)")
 	#s <- s + scale_y_continuous(breaks=seq(0, max_flowrate, round(max_flowrate, -1)/10))
-	#s <- s + scale_x_datetime(breaks = date_breaks(sprintf("%f hours", floor(period_metrics$time_dif_hours[i])/time_scale)), labels = date_format("%a %H:%M", tz = "GMT-2"))
+
+	s <- s + scale_x_datetime(breaks = date_breaks(sprintf("%f hours", floor(period_metrics$time_dif_hours[i])/time_scale)), labels = date_format("%a %H:%M", tz = "GMT-2"))
 	s <- s + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 	print(s)
 

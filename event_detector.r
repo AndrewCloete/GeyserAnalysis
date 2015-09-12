@@ -101,6 +101,7 @@ extract_events <- function(data){
 
 	hot_events <- event_detect(data, "hot_flow_dif", 0.1, 0.1)
 	cold_events <- event_detect(data, "cold_flow_dif", 0.1, 0.1)	
+	
 
 	hot_events$type <- "hot"
 	cold_events$type <- "cold"
@@ -108,6 +109,9 @@ extract_events <- function(data){
 	
 	colnames(hot_events) <- event_colnames 
 	colnames(cold_events) <- event_colnames 
+
+	hot_events$start_time <- as.POSIXct(hot_events$start_time, origin="1970-01-01")
+	cold_events$start_time <- as.POSIXct(cold_events$start_time, origin="1970-01-01")
 
 
 	test <- vector()

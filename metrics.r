@@ -54,6 +54,8 @@ metrics <- function(data, events){
 	sd_hot_flowrate <- sd(hot_events$mean_flowrate)
 	sd_cold_flowrate <- sd(cold_events$mean_flowrate)
 
+	event_energy_out <- sum(hot_events$enthalpy)
+
 	v <- c(	start_time,
 		end_time,
 		time_dif_hours,
@@ -92,7 +94,8 @@ metrics <- function(data, events){
 		mean_hot_flowrate,
 		mean_cold_flowrate,
 		sd_hot_flowrate,
-		sd_cold_flowrate)
+		sd_cold_flowrate,
+		event_energy_out)
 			
 
 	m <- data.frame()
@@ -140,5 +143,6 @@ metric_colnames <- c(	"start_time",
 			"mean_hot_flowrate",
 			"mean_cold_flowrate",
 			"sd_hot_flowrate",
-			"sd_cold_flowrate")
+			"sd_cold_flowrate",
+			"event_energy_out")
 

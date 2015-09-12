@@ -1,5 +1,5 @@
-start_time <- "15-09-02 02:00:00"
-end_time <- "15-09-03 01:00:00"
+start_time <- "15-09-08 02:00:00"
+end_time <- "15-09-09 02:00:00"
 period <- 24*60*60 # in seconds
 duration <- 24*60*60
 
