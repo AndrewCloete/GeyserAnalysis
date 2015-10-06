@@ -11,6 +11,14 @@ events <- extract_hot_events(data, 0.1, 0.1)
 upper_events <- subset(events, volume>=event_midpoint)
 lower_events <- subset(events, volume<event_midpoint)
 
+display <- events[,!(names(events) %in% c("type", "mean_temp_in", "mean_flowrate"))]
+
+display$enthalpy <- display$enthalpy/(1000*3600)
+display$start_time <- as.character(display$start_time, format="%H:%M:%S")
+
+colnames(display) <- c("Start time", "Volume (l)","Duration", "Avg temperature", "Est energy (kWh)")
+
+print(events)
 
 # ---------------------------------------------------------------------------- #
 total_volume <- sum(data$hot_flow_dif)
