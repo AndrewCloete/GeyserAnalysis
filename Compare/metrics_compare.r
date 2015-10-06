@@ -43,7 +43,7 @@ print(events[[i]])
 	print(sprintf("SD COLD event flowrate: %0.01f litres/min", m$sd_cold_flowrate))
 
 	print(sprintf("ENERGY input total (element): %0.01f kwatt-h", m$total_energy))
-	print(sprintf("ENERGY output total (events): %0.01f kwatt-h", m$event_energy_out))
+	print(sprintf("ENERGY output total (events): %0.01f kwatt-h", m$event_energy_out/(1000*3600)))
 	print(ln)
 
 	period_metrics <- rbind(period_metrics, m)

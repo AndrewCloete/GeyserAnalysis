@@ -12,16 +12,20 @@ svg(file=output_file, width=plot_width)
 par(mfrow=c(1,1))
 
 for(i in 1:date_count){
+	
+	all_minutes <- seq(start_time, end_time, by="min")
+	vlines <- subset(all_minutes, format(all_minutes, "%H:%M") == "02:00") 
+
 	s <- ggplot(subsets[[i]])
 	s <- s + geom_line( aes(y=t1, x=server_stamp, color="Outlet"), show_guide=TRUE) 
 	s <- s + geom_line( aes(y=t2, x=server_stamp, color="Far"), show_guide=TRUE) 
 	s <- s + geom_line( aes(y=t3, x=server_stamp, color="Inlet"), show_guide=TRUE) 
 	s <- s + geom_line( aes(y=t4, x=server_stamp, color="Abmient"), show_guide=TRUE) 
 	s <- s + geom_line( aes(y=watt_avgpmin, x=server_stamp, color = "Power"), show_guide=TRUE) 
-	s <- s + geom_vline(xintercept = as.numeric(c(period_metrics$start_time[i], period_metrics$end_time[i])), linetype=4, color = "darkgreen")
+	s <- s + geom_vline(xintercept = as.numeric(vlines), linetype=4, color = "darkgreen")
 	s <- s + scale_colour_brewer(palette="Set1", name="Usage") 
 	s <- s + labs(x = "Timestamp", y = "Temperature", 
-			title = sprintf("Raw temperature data for %s to %s", 
+			title = sprintf("Temperature data for %s to %s", 
 			strftime(as.POSIXct(period_metrics$start_time[i], origin = "1970-01-01")), 
 			strftime(as.POSIXct(period_metrics$end_time[i], origin = "1970-01-01"))))
 	#s <- s + scale_y_continuous(breaks=seq(0.0, max_outlet_temp + 10, 5))
@@ -32,11 +36,11 @@ for(i in 1:date_count){
 	s <- ggplot(events[[i]], aes(start_time, mean_flowrate))
 	s <- s + geom_point( aes(size=volume, color = type), show_guide=TRUE) 
 	s <- s + scale_size("Usage volume", range = c(2, 20)) + scale_color_manual (values=c("steelblue2", "tomato"), name="Usage type")
-	s <- s + geom_vline(xintercept = as.numeric(c(period_metrics$start_time[i], period_metrics$end_time[i])), linetype=4, color = "darkgreen")
-#	s <- s + geom_text(aes(x=start_time, y=mean_flowrate, label=sprintf("%5.1f",volume), size=2, vjust=-1))
-	s <- s + geom_text(aes(x=start_time, y=mean_flowrate, label=sprintf("R%5.2f", enthalpy), size=10, vjust=-1))
+	s <- s + geom_vline(xintercept = as.numeric(vlines), linetype=4, color = "darkgreen")
+	#s <- s + geom_text(aes(x=start_time, y=mean_flowrate, label=sprintf(" %5.1f l",volume), size=10, vjust=0.5, hjust=-0.5))
+	s <- s + geom_text(aes(x=start_time, y=mean_flowrate, label=sprintf("R%5.2f", est_cost), size=10, vjust=-1, hjust=-0.5))
 	#s <- s + geom_text(aes(x=start_time, y=mean_flowrate, label=sprintf("%5.1f deg",mean_temp_in), size=2, vjust=5))
-	s <- s + labs(x = "Start time", y = "Flowrate [l/min]", title = "Balloon events volume [l] (on Flowrate vs Time)")
+	s <- s + labs(x = "Start time", y = "Flowrate [l/min]", title = "Balloon events volume [l] (on Flowrate vs Time)", limits = as.numeric(c(period_metrics$start_time[i], period_metrics$end_time[i])))
 	#s <- s + scale_y_continuous(breaks=seq(0, max_flowrate, round(max_flowrate, -1)/10))
 
 	s <- s + scale_x_datetime(breaks = date_breaks(sprintf("%f hours", floor(period_metrics$time_dif_hours[i])/time_scale)), labels = date_format("%a %H:%M", tz = "GMT-2"))

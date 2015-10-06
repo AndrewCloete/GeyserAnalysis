@@ -1,0 +1,2 @@
+"date","geyser_id","total_volume","total_elec_energy","total_enthalpy","energy_loss","t_out_min","t_out_mean","t_out_mean.1","t_in_min","t_in_mean","t_in_max","t_amb_min","t_amb_mean","t_amb_max","total_events_count","upper_events_count","lower_events_count","event_midpoint","num_samples","packet_loss"
+"2015-09-10",107,229.823,13.260822,9.00407112020055,4.25675087979945,39,44.5701892744479,44.5701892744479,12,15.852523659306,19,12,15.3777602523659,19,36,8,28,10,1268,11.9444444444444

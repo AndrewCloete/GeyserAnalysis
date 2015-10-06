@@ -1,6 +1,6 @@
 
-start_threshold <- 0.5
-stop_threshold <- 0.5
+start_threshold <- 1
+stop_threshold <- 1
 
 print(ln)
 print(sprintf("Start detection threshold: %0.1f litres", start_threshold))
