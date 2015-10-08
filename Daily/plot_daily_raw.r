@@ -1,7 +1,7 @@
 library(ggplot2)
 library(scales) # to access breaks/formatting functions
 
-output_file <- sprintf("~/Geyser/R/Daily/geyser_%i_raw.pdf", geyser_id)
+#output_file <- sprintf("~/Geyser/R/Daily/geyser_%i_raw.pdf", geyser_id)
 
 #Plot parameters
 time_scale <- 12
@@ -11,7 +11,8 @@ plot_width <- 20
 #pdf(file=output_file, width=plot_width)
 #par(mfrow=c(1,1))
 
-
+start_time = as.POSIXct(strptime(sprintf("%s 02:00:00", date), "%Y-%m-%d %H:%M:%S"))
+end_time = start_time + 24*60*60
 
 all_minutes <- seq(start_time, end_time, by="min")
 vlines <- subset(all_minutes, format(all_minutes, "%H:%M") == "02:00")

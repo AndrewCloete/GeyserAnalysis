@@ -1,20 +1,31 @@
-geyser_id = 109
-start_date = '2015-09-01'
-end_date = '2015-10-05'
+source('~/Geyser/R/Daily/import_daily.r')
+source('~/Geyser/R/Daily/events_daily.r')
+source('~/Geyser/R/Daily/analyse_daily.r')
 
+
+geyser_id = 112
+start_date = '2015-08-15'
+end_date = '2015-10-03'
+skip = as.Date(c('2015-09-25', '2015-09-26', '2015-09-27'))
 
 dates = seq(as.Date(start_date), as.Date(end_date), "days")
+dates <- dates[is.na(match(dates,skip))]
 print(dates)
 
 batch_summary <- data.frame()
 
 for(i in 1:length(dates)){
 
-  date <- dates[i]
-  source('~/Geyser/R/Daily/import_daily.r')
-  source('~/Geyser/R/Daily/analyse_daily.r')
+    print(sprintf("Import geyser_%g for %s...", geyser_id, dates[i]))
+    data <- import_daily(dates[i], geyser_id)
+    print("Calc events...")
+    events <- events_daily(data)
+    print("Analyse")
+    daily_summary <- analyse_daily(data, events)
 
-  batch_summary <- rbind(batch_summary, summary)
+
+    batch_summary <- rbind(batch_summary, daily_summary)
+
 
 }
 

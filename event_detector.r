@@ -102,6 +102,11 @@ event_detect <- function(data, flow_name, start_threshold, stop_threshold){
 		}
 	}
 
+	print(sprintf("Number of events: %g", nrow(events)))
+	if(nrow(events)==0){
+		events <- data.frame(timestamps[1], 0.0, 0.0, 0.0, 0.0, 0.0)
+	}
+
 	return(events)
 }
 

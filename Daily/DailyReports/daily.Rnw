@@ -1,0 +1,167 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% University/School Laboratory Report
+% LaTeX Template
+% Version 3.1 (25/3/14)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Linux and Unix Users Group at Virginia Tech Wiki 
+% (https://vtluug.org/wiki/Example_LaTeX_chem_lab_report)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass{article}
+
+\usepackage[version=3]{mhchem} % Package for chemical equation typesetting
+\usepackage{siunitx} % Provides the \SI{}{} and \si{} command for typesetting SI units
+\usepackage{graphicx} % Required for the inclusion of images
+\usepackage{natbib} % Required to change bibliography style to APA
+\usepackage{amsmath} % Required for some math elements 
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={210mm,297mm},
+ left=20mm,
+ right=20mm,
+ top=20mm,
+ bottom=20mm,
+ }
+
+
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+\renewcommand{\labelenumi}{\alph{enumi}.} % Make numbering in the enumerate environment by letter rather than number (e.g. section 6)
+
+%\usepackage{times} % Uncomment to use the Times New Roman font
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+<<echo=FALSE, results='hide', warning=FALSE>>=
+source('~/Geyser/R/Daily/batch_daily.r')
+
+date <- '2015-10-07'
+geysers <- c(104, 106, 107, 108, 109, 112)
+this_geyser <- 106
+
+d <- as.Date(date)
+
+k <- batch_daily_summary(date, geysers)
+@
+
+
+\title{Geyser daily report for \Sexpr{format(d, format="%A, %B %d")}} % Title
+%\author{Andrew \textsc{Cloete}} % Author name
+\date{\vspace{-5ex}} % Date for the report
+
+
+\begin{document}
+
+\maketitle % Insert the title, author and date
+
+
+% If you wish to include an abstract, uncomment the lines below
+% \begin{abstract}
+% Abstract text
+% \end{abstract}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+
+
+
+\section{Overview}
+
+<<echo=FALSE>>=
+t <- k[k$geyser_id==this_geyser,]
+@
+
+Total hot water used \dotfill \Sexpr{sprintf(" %.1f",t$total_volume)} litres\\
+Number of events larger than \Sexpr{t$event_midpoint} litres \dotfill \Sexpr{t$upper_events_count}\\
+Number of events smaller than \Sexpr{t$event_midpoint} litres \dotfill \Sexpr{t$lower_events_count}\\
+Total number of events \dotfill \Sexpr{t$total_events_count}\\
+
+Maximum hot water temperature \dotfill \Sexpr{sprintf(" %.1f",t$t_out_max)} $^{\circ}$C\\
+Avarage hot water temperature \dotfill \Sexpr{sprintf(" %.1f",t$t_out_mean)} $^{\circ}$C\\
+Minimum hot water temperature \dotfill \Sexpr{sprintf(" %.1f",t$t_out_min)} $^{\circ}$C\\
+Avarage ambient temperature at geyser \dotfill \Sexpr{sprintf(" %.1f",t$t_amb_mean)} $^{\circ}$C\\
+
+Electrical energy consumed \dotfill  \Sexpr{sprintf(" %.1f",t$total_elec_energy)} kWh\\
+Estimated cost \dotfill  \Sexpr{sprintf("R %.2f",t$est_cost)}\\
+Effective energy of hot water consumed \dotfill \Sexpr{sprintf(" %.1f",t$total_enthalpy)} kWh\\
+Energy loss due to radiation \dotfill  \Sexpr{sprintf(" %.1f",t$energy_loss)} kWh\\
+Percentage energy wasted \dotfill  \Sexpr{sprintf(" %.1f",(t$energy_loss/t$total_elec_energy)*100)} \%\\
+
+
+
+\section{Other participant comparison}
+
+Your Geyser ID is  \dotfill \Sexpr{this_geyser}\\
+\begin{center}
+<<all, echo=FALSE, fig.align='center', results='hide'>>=
+source('~/Geyser/R/Daily/bds_beautify.r')
+
+bds = bds_beautify(k)
+
+drops <- c("Date", "#samples", "Midpoint (l)")
+bds <- bds[,!(names(bds) %in% drops)]
+
+# first remember the names
+n <- bds$name
+
+# transpose all but the first column (name)
+bds <- as.data.frame(t(bds))
+colnames(bds) <- n
+@
+
+<<kab, echo=FALSE, fig.align='center'>>=
+kable(bds, digits=2)
+@
+\end{center}
+
+\newpage
+\section{Hot water usage event summary}
+\begin{center}
+<<echo=FALSE, fig.align='center', warning=FALSE, results='hide'>>=
+source('~/Geyser/R/Daily/events_beautify.r')
+
+data <- import_daily(date, this_geyser)
+events <- events_daily(data)
+ 
+eb <- events_beautify(events)
+@
+<<kable, echo=FALSE, fig.align='center', warning=FALSE>>=
+kable(eb, digits=2)
+@
+\end{center}
+\newpage
+
+\section{Graphs}
+<<ballo0n, fig.pos="h!", fig.align='center', fig.width=15,fig.cap="Usage events and volumes", echo=FALSE>>=
+source('~/Geyser/R/Daily/plot_daily_balloon.r')
+@
+
+<<raw, fig.pos="h!", fig.width=15,fig.cap="Raw data", echo=FALSE>>=
+source('~/Geyser/R/Daily/plot_daily_raw.r')
+@
+
+
+
+
+\end{document}

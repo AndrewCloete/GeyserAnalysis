@@ -1,7 +1,7 @@
 library(ggplot2)
 library(scales) # to access breaks/formatting functions
 
-output_file <- sprintf("~/Geyser/R/Daily/geyser_%i_balloon.pdf", geyser_id)
+#output_file <- sprintf("~/Geyser/R/Daily/geyser_%i_balloon.pdf", geyser_id)
 
 #Plot parameters
 time_scale <- 12
@@ -11,7 +11,8 @@ plot_width <- 20
 #pdf(file=output_file, width=plot_width)
 #par(mfrow=c(1,1))
 
-
+start_time = as.POSIXct(strptime(sprintf("%s 02:00:00", date), "%Y-%m-%d %H:%M:%S"))
+end_time = start_time + 24*60*60
 
 all_minutes <- seq(start_time, end_time, by="min")
 vlines <- subset(all_minutes, format(all_minutes, "%H:%M") == "02:00")
@@ -22,9 +23,9 @@ s <- s + geom_point( aes(size=volume, color = type), show_guide=TRUE)
 s <- s + scale_size("Usage volume", range = c(2, 20)) + scale_color_manual (values=c("tomato"), name="Usage type")
 s <- s + geom_vline(xintercept = as.numeric(vlines), linetype=4, color = "darkgreen")
 #s <- s + geom_text(aes(x=start_time, y=mean_flowrate, label=sprintf(" %5.1f l",volume), size=10, vjust=0.5, hjust=-0.5))
-s <- s + geom_text(aes(x=start_time, y=mean_flowrate, label=sprintf("%.1f", volume), size=5, vjust=-1, hjust=-0))
+s <- s + geom_text(aes(x=start_time, y=mean_flowrate, label=sprintf("R%.1f", (enthalpy/(1000*3600))*1.5), size=(max(events$mean_flowrate)/2), vjust=-1, hjust=-0))
 #s <- s + geom_text(aes(x=start_time, y=mean_flowrate, label=sprintf("%5.1f deg",mean_temp_in), size=2, vjust=5))
-s <- s + labs(x = "Start time", y = "Flowrate [l/min]", title = "Events volume", limits = as.numeric(c(start_time, end_time)))
+s <- s + labs(x = "Start time", y = "Flowrate [l/min]", title = "Volume [l]", limits = as.numeric(c(start_time, end_time)))
 s <- s + scale_y_continuous(breaks=seq(0, max(events$mean_flowrate)+1, 1), limits=c(0, max(events$mean_flowrate)+1))
 s <- s + scale_x_datetime(breaks = date_breaks(sprintf("%f hours", 1)), labels = date_format("%H:%M", tz = "GMT-2"))
 s <- s + theme(axis.text.x = element_text(angle = 90, hjust = 1))
