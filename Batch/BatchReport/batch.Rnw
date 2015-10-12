@@ -55,7 +55,7 @@
 <<echo=FALSE, results='hide', warning=FALSE>>=
 source('~/Geyser/R/Batch/read_batch.r')
 
-geyser_id <- 112
+geyser_id <- 107
 
 
 b <- read_batch(geyser_id)
@@ -67,7 +67,7 @@ end_date <- as.Date(b$date[num_entries])
 @
 
 
-\title{Geyser report for \Sexpr{format(start_date, format="%B %d")} to \Sexpr{format(end_date, format="%B %d")}} % Title
+\title{Geyser report for \Sexpr{format(start_date+1, format="%a %d")} to \Sexpr{format(end_date+1, format="%a %d %B %Y")}} % Title
 %\author{Andrew \textsc{Cloete}} % Author name
 \date{\vspace{-5ex}} % Date for the report
 
@@ -94,31 +94,29 @@ Average daily energy loss \dotfill \Sexpr{round(mean(b$energy_loss), 2)} kWh\\
 Average daily estimated electricity cost \dotfill R\Sexpr{round(mean(b$est_cost), 2)}\\
 Estimated total cost over the past \Sexpr{num_entries} days \dotfill R \Sexpr{round(sum(b$est_cost), 2)}\\
 
-Average daily number of events larger than \Sexpr{mean(b$event_midpoint[1])} \dotfill \Sexpr{round(mean(b$upper_events_count), 0)}\\
-Average daily number of events smaller than \Sexpr{mean(b$event_midpoint[1])} \dotfill \Sexpr{round(mean(b$lower_events_count), 0)}\\
+Average daily number of events larger than \Sexpr{mean(b$event_midpoint[1])} litres\dotfill \Sexpr{round(mean(b$upper_events_count), 0)}\\
+Average daily number of events smaller than \Sexpr{mean(b$event_midpoint[1])} litres\dotfill \Sexpr{round(mean(b$lower_events_count), 0)}\\
 Average daily number of events \dotfill \Sexpr{round(mean(b$total_events_count), 0)}\\
 
+<<fig.pos="h!", fig.width=15,fig.cap="Volume usage", echo=FALSE, warning=FALSE>>=
+source('~/Geyser/R/Batch/View/plot_batch.r')
+plot_batch_volume(b)
+@
 
+<<fig.pos="h!", fig.width=15,fig.cap="Volume usage", echo=FALSE, warning=FALSE>>=
+source('~/Geyser/R/Batch/View/plot_batch.r')
+plot_batch_energy(b)
+@
 
-\begin{figure}[h!]
-    \centering 
-	\includegraphics[width=\textwidth]{./figs/water_and_energy_\Sexpr{geyser_id}.png}
-    %\caption{ETSI horizontal architecture}
-    %\label{fig:etsi-func}
-\end{figure}
+<<fig.pos="h!", fig.width=15,fig.cap="Volume usage", echo=FALSE, warning=FALSE>>=
+source('~/Geyser/R/Batch/View/plot_batch.r')
+plot_batch_cost(b)
+@
 
-\begin{figure}[h!]
-    \centering 
-	\includegraphics[width=\textwidth]{./figs/avg_temps_\Sexpr{geyser_id}.png}
-    %\caption{ETSI horizontal architecture}
-    %\label{fig:etsi-func}
-\end{figure}
+<<fig.pos="h!", fig.width=15,fig.cap="Volume usage", echo=FALSE, warning=FALSE>>=
+source('~/Geyser/R/Batch/View/plot_batch.r')
+plot_batch_temperature(b)
+@
 
-\begin{figure}[h!]
-    \centering 
-	\includegraphics[width=\textwidth]{./figs/est_cost_\Sexpr{geyser_id}.png}
-    %\caption{ETSI horizontal architecture}
-    %\label{fig:etsi-func}
-\end{figure}
 
 \end{document}

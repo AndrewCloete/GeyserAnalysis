@@ -174,7 +174,7 @@ extract_hot_events <- function(data, start_threshold, stop_threshold){
 	}
 
 	# Create and assign "enthalpy" column for events
-	hot_events$enthalpy <- enth
+	hot_events$enthalpy <- enth/(1000*3600)
 
 	return(hot_events)
 }

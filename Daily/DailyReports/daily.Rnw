@@ -53,19 +53,13 @@
 %----------------------------------------------------------------------------------------
 
 <<echo=FALSE, results='hide', warning=FALSE>>=
-source('~/Geyser/R/Daily/batch_daily.r')
-
-date <- '2015-10-07'
-geysers <- c(104, 106, 107, 108, 109, 112)
+date <- '2015-10-11'
 this_geyser <- 106
-
-d <- as.Date(date)
-
-k <- batch_daily_summary(date, geysers)
+geysers <- c(104, 106, 107, 109, 112)
 @
 
 
-\title{Geyser daily report for \Sexpr{format(d, format="%A, %B %d")}} % Title
+\title{Geyser daily report for \Sexpr{format(as.Date(date), format="%A, %B %d")}} % Title
 %\author{Andrew \textsc{Cloete}} % Author name
 \date{\vspace{-5ex}} % Date for the report
 
@@ -89,7 +83,8 @@ k <- batch_daily_summary(date, geysers)
 \section{Overview}
 
 <<echo=FALSE>>=
-t <- k[k$geyser_id==this_geyser,]
+source('~/Geyser/R/Daily/View/read_daily_summary.r')
+t <- read_daily_summary(date, this_geyser)
 @
 
 Total hot water used \dotfill \Sexpr{sprintf(" %.1f",t$total_volume)} litres\\
@@ -97,68 +92,113 @@ Number of events larger than \Sexpr{t$event_midpoint} litres \dotfill \Sexpr{t$u
 Number of events smaller than \Sexpr{t$event_midpoint} litres \dotfill \Sexpr{t$lower_events_count}\\
 Total number of events \dotfill \Sexpr{t$total_events_count}\\
 
-Maximum hot water temperature \dotfill \Sexpr{sprintf(" %.1f",t$t_out_max)} $^{\circ}$C\\
-Avarage hot water temperature \dotfill \Sexpr{sprintf(" %.1f",t$t_out_mean)} $^{\circ}$C\\
-Minimum hot water temperature \dotfill \Sexpr{sprintf(" %.1f",t$t_out_min)} $^{\circ}$C\\
-Avarage ambient temperature at geyser \dotfill \Sexpr{sprintf(" %.1f",t$t_amb_mean)} $^{\circ}$C\\
+Maximum hot water temperature (geyser setpoint) \dotfill \Sexpr{sprintf(" %.1f",t$t_out_max)} $^{\circ}$C\\
+Average hot water temperature \dotfill \Sexpr{sprintf(" %.1f",t$t_out_mean)} $^{\circ}$C\\
+Coldest geyser outlet temperature \dotfill \Sexpr{sprintf(" %.1f",t$t_out_min)} $^{\circ}$C\\
+Average ambient temperature at geyser \dotfill \Sexpr{sprintf(" %.1f",t$t_amb_mean)} $^{\circ}$C\\
 
 Electrical energy consumed \dotfill  \Sexpr{sprintf(" %.1f",t$total_elec_energy)} kWh\\
-Estimated cost \dotfill  \Sexpr{sprintf("R %.2f",t$est_cost)}\\
-Effective energy of hot water consumed \dotfill \Sexpr{sprintf(" %.1f",t$total_enthalpy)} kWh\\
-Energy loss due to radiation \dotfill  \Sexpr{sprintf(" %.1f",t$energy_loss)} kWh\\
+Effective energy consumed \dotfill \Sexpr{sprintf(" %.1f",t$total_enthalpy)} kWh\\
+Standing losses \dotfill  \Sexpr{sprintf(" %.1f",t$energy_loss)} kWh\\
 Percentage energy wasted \dotfill  \Sexpr{sprintf(" %.1f",(t$energy_loss/t$total_elec_energy)*100)} \%\\
+Estimated cost of electricity \dotfill  \Sexpr{sprintf("R %.2f",t$est_cost)}\\
+Estimated cost of standing losses \dotfill  \Sexpr{sprintf("R %.2f",t$energy_loss*1.5)}\\
 
 
 
 \section{Other participant comparison}
 
 Your Geyser ID is  \dotfill \Sexpr{this_geyser}\\
-\begin{center}
+
+
 <<all, echo=FALSE, fig.align='center', results='hide'>>=
-source('~/Geyser/R/Daily/bds_beautify.r')
+source('~/Geyser/R/Daily/View/summary_beautify.r')
 
-bds = bds_beautify(k)
-
-drops <- c("Date", "#samples", "Midpoint (l)")
-bds <- bds[,!(names(bds) %in% drops)]
-
-# first remember the names
-n <- bds$name
-
-# transpose all but the first column (name)
-bds <- as.data.frame(t(bds))
-colnames(bds) <- n
+drop <- c("Date", "#samples", "Midpoint (l)")
+s <-  summary_beautify(read_daily_summaries(date, geysers), drop, TRUE)
 @
 
+\begin{center}
 <<kab, echo=FALSE, fig.align='center'>>=
-kable(bds, digits=2)
+kable(s, digits=2)
 @
 \end{center}
 
 \newpage
 \section{Hot water usage event summary}
-\begin{center}
-<<echo=FALSE, fig.align='center', warning=FALSE, results='hide'>>=
-source('~/Geyser/R/Daily/events_beautify.r')
 
-data <- import_daily(date, this_geyser)
-events <- events_daily(data)
- 
-eb <- events_beautify(events)
+<<echo=FALSE, fig.align='center', warning=FALSE, results='hide'>>=
+source('~/Geyser/R/Daily/View/read_daily_events.r')
+source('~/Geyser/R/Daily/View/events_beautify.r')
+
+data <- read_daily_summary(date, this_geyser)
+events <- read_daily_events(date, this_geyser)
+t <- read_daily_summary(date, this_geyser)
+
+
+upper_events <- subset(events, volume>=t$event_midpoint)
+lower_events <- subset(events, volume<t$event_midpoint)
+
+up_events <- events_beautify(upper_events)
+lo_events <- events_beautify(lower_events)
 @
-<<kable, echo=FALSE, fig.align='center', warning=FALSE>>=
-kable(eb, digits=2)
+
+\subsection{Large events}
+
+The following is a summary of events \textit{larger} than \Sexpr{t$event_midpoint} litres. \\
+
+Number of events \dotfill \Sexpr{nrow(up_events)}\\
+Total volume of water consumed \dotfill \Sexpr{round(sum(upper_events$volume), 1)} litres\\
+Total energy consumed \dotfill \Sexpr{round(sum(upper_events$enthalpy), 1)} kWh\\
+Total estimated cost \dotfill R\Sexpr{round(sum(upper_events$enthalpy)*1.5, 2)}\\
+
+\begin{center}
+\begin{table}[h!]
+<<upper, echo=FALSE, fig.align='center', warning=FALSE>>=
+kable(up_events, digits=2)
 @
+\caption{List of events larger than \Sexpr{t$event_midpoint} litres}
+\end{table}
 \end{center}
+
+
+\subsection{Small events}
+
+The following is a summary of events \textit{smaller} than \Sexpr{t$event_midpoint} litres. \\
+
+Number of events \dotfill \Sexpr{nrow(lo_events)}\\
+Total volume of water consumed \dotfill \Sexpr{round(sum(lower_events$volume), 1)} litres\\
+Energy consumed \dotfill \Sexpr{round(sum(lower_events$enthalpy), 1)} kWh\\
+Estimated cost \dotfill R\Sexpr{round(sum(lower_events$enthalpy)*1.5, 2)}\\
+
+\begin{center}
+\begin{table}[h!]
+<<lower, echo=FALSE, fig.align='center', warning=FALSE>>=
+kable(lo_events, digits=2)
+@
+\caption{List of events smaller than \Sexpr{t$event_midpoint} litres}
+\end{table}
+\end{center}
+
+
+
+
 \newpage
 
 \section{Graphs}
-<<ballo0n, fig.pos="h!", fig.align='center', fig.width=15,fig.cap="Usage events and volumes", echo=FALSE>>=
-source('~/Geyser/R/Daily/plot_daily_balloon.r')
+<<balloon, fig.pos="h!", fig.align='center', fig.width=15,fig.cap="Usage events and volumes", echo=FALSE>>=
+source('~/Geyser/R/Daily/View/plot_daily_balloon.r')
+
+events <- read_daily_events(date, this_geyser)
+
+plot_daily_balloon(date, events, FALSE)
+
 @
 
-<<raw, fig.pos="h!", fig.width=15,fig.cap="Raw data", echo=FALSE>>=
-source('~/Geyser/R/Daily/plot_daily_raw.r')
+<<raw, fig.pos="h!", fig.width=15,fig.cap="Raw data", echo=FALSE, results='hide', warning=FALSE>>=
+source('~/Geyser/R/Daily/View/plot_daily_raw.r')
+data = import_daily(date, this_geyser)
+plot_daily_raw(data, FALSE)
 @
 
 

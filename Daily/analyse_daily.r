@@ -1,4 +1,5 @@
 source('~/Geyser/R/Daily/import_daily.r')
+source('~/Geyser/R/event_detector.r')
 
 analyse_daily <- function(data, events){
 
@@ -12,7 +13,7 @@ analyse_daily <- function(data, events){
       # ---------------------------------------------------------------------------- #
       total_volume <- round(sum(data$hot_flow_dif), 1)
       total_elec_energy <- round(sum(data$kwatt_dif), 1)
-      total_enthalpy <- round(sum(events$enthalpy)/(1000*3600), 1)
+      total_enthalpy <- round(sum(events$enthalpy), 1)
       est_cost <- round(total_elec_energy*1.5, 2)
       energy_loss <- round(total_elec_energy-total_enthalpy, 1)
       percent_loss <- round((energy_loss/total_elec_energy)*100, 1)
@@ -48,7 +49,7 @@ analyse_daily <- function(data, events){
 
       return(summary)
 }
-#print(summary)
+
 
 #output_path <- sprintf('~/Geyser/R/Daily/Output/%d/%s_%d.csv', geyser_id, date, geyser_id)
 #write.table(summary, file = output_path, append = FALSE, quote = TRUE, sep = ",",
