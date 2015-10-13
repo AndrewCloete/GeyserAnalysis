@@ -18,7 +18,7 @@ plot_batch_energy <- function(batch_summary){
   s <- s + geom_bar(aes(y=total_enthalpy, x=date, fill="Effective"), stat="identity")
   s <- s + geom_bar(aes(y=energy_loss, x=date, fill="Loss"), stat="identity")
   s <- s + scale_fill_manual(values=c("yellowgreen","darkorchid", "gray29"), name="Type")
-  s <- s + labs(x = "Date", y = "Energy", title = "Total energy usage per day")
+  s <- s + labs(x = "Date", y = "Energy [kWh]", title = "Total energy usage per day")
   s <- s + scale_x_datetime(breaks = date_breaks(sprintf("%f days", 1)), labels = date_format("%a %d %b", tz = "GMT-2"))
   s <- s + theme(axis.text.x = element_text(angle = 90, hjust = 1))
   print(s)

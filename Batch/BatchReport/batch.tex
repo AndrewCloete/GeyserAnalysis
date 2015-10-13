@@ -77,6 +77,7 @@
 \usepackage{amsmath} % Required for some math elements 
 \usepackage[table]{xcolor}
 \usepackage{colortbl}
+\usepackage[caption=false]{subfig}
 
 
 \usepackage{geometry}
@@ -136,31 +137,28 @@ Average daily number of events \dotfill 17\\
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}[h!]
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-2-1} \caption[Volume usage]{Volume usage}\label{fig:unnamed-chunk-2}
+
+{\centering \subfloat[Volume\label{fig:fig-sub1}]{\includegraphics[width=.49\linewidth]{figure/fig-sub-1} }
+\subfloat[Energy\label{fig:fig-sub2}]{\includegraphics[width=.49\linewidth]{figure/fig-sub-2} }
+
+}
+
+\caption{}\label{fig:fig-sub}
 \end{figure}
 
 
 \end{knitrout}
 
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}[h!]
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-3-1} \caption[Volume usage]{Volume usage}\label{fig:unnamed-chunk-3}
-\end{figure}
-
-
-\end{knitrout}
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}[h!]
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-4-1} \caption[Volume usage]{Volume usage}\label{fig:unnamed-chunk-4}
-\end{figure}
 
+{\centering \subfloat[Cost\label{fig:fig-sub21}]{\includegraphics[width=.49\linewidth]{figure/fig-sub2-1} }
+\subfloat[Temperatures\label{fig:fig-sub22}]{\includegraphics[width=.49\linewidth]{figure/fig-sub2-2} }
 
-\end{knitrout}
+}
 
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}[h!]
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-5-1} \caption[Volume usage]{Volume usage}\label{fig:unnamed-chunk-5}
+\caption{}\label{fig:fig-sub2}
 \end{figure}
 
 

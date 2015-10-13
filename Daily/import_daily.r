@@ -1,5 +1,6 @@
 library(RMySQL)
 
+source('~/Geyser/R/event_detector.r')
 
 import_daily <- function(date, geyser_id){
 

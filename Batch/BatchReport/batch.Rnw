@@ -28,6 +28,7 @@
 \usepackage{amsmath} % Required for some math elements 
 \usepackage[table]{xcolor}
 \usepackage{colortbl}
+\usepackage[caption=false]{subfig}
 
 
 \usepackage{geometry}
@@ -98,23 +99,17 @@ Average daily number of events larger than \Sexpr{mean(b$event_midpoint[1])} lit
 Average daily number of events smaller than \Sexpr{mean(b$event_midpoint[1])} litres\dotfill \Sexpr{round(mean(b$lower_events_count), 0)}\\
 Average daily number of events \dotfill \Sexpr{round(mean(b$total_events_count), 0)}\\
 
-<<fig.pos="h!", fig.width=15,fig.cap="Volume usage", echo=FALSE, warning=FALSE>>=
+<<fig-sub, fig.cap='', fig.subcap=c('Volume', 'Energy'), out.width='.49\\linewidth', results='hide', echo=FALSE, fig.pos="h!", fig.align='center'>>=
 source('~/Geyser/R/Batch/View/plot_batch.r')
-plot_batch_volume(b)
-@
+plot_batch_volume(b) 
 
-<<fig.pos="h!", fig.width=15,fig.cap="Volume usage", echo=FALSE, warning=FALSE>>=
-source('~/Geyser/R/Batch/View/plot_batch.r')
 plot_batch_energy(b)
 @
 
-<<fig.pos="h!", fig.width=15,fig.cap="Volume usage", echo=FALSE, warning=FALSE>>=
-source('~/Geyser/R/Batch/View/plot_batch.r')
-plot_batch_cost(b)
-@
 
-<<fig.pos="h!", fig.width=15,fig.cap="Volume usage", echo=FALSE, warning=FALSE>>=
-source('~/Geyser/R/Batch/View/plot_batch.r')
+<<fig-sub2, fig.cap='', fig.subcap=c('Cost', 'Temperatures'), out.width='.49\\linewidth', results='hide', echo=FALSE, fig.pos="h!", fig.align='center'>>=
+plot_batch_cost(b)
+
 plot_batch_temperature(b)
 @
 

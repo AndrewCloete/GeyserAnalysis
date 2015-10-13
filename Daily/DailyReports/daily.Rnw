@@ -54,7 +54,7 @@
 
 <<echo=FALSE, results='hide', warning=FALSE>>=
 date <- '2015-10-11'
-this_geyser <- 106
+this_geyser <- 107
 geysers <- c(104, 106, 107, 109, 112)
 @
 
@@ -197,6 +197,7 @@ plot_daily_balloon(date, events, FALSE)
 
 <<raw, fig.pos="h!", fig.width=15,fig.cap="Raw data", echo=FALSE, results='hide', warning=FALSE>>=
 source('~/Geyser/R/Daily/View/plot_daily_raw.r')
+source('~/Geyser/R/Daily/import_daily.r')
 data = import_daily(date, this_geyser)
 plot_daily_raw(data, FALSE)
 @
