@@ -7,11 +7,12 @@ plot_daily_raw <- function(data, tofile){
   time_scale <- 12
   plot_width <- 20
 
+  tofile <- FALSE
   if(tofile){
-    #output_file <- sprintf("~/Geyser/R/Daily/geyser_%i_raw.pdf", geyser_id)
+    output_file <- sprintf("~/Geyser/R/Daily/geyser_%i_raw.pdf", geyser_id)
     #png(file=output_file, res = 120, width = 1000, height = 500)
-    #pdf(file=output_file, width=plot_width)
-    #par(mfrow=c(1,1))
+    pdf(file=output_file, width=15)
+    par(mfrow=c(1,1))
   }
 
   start_time = as.POSIXct(strptime(sprintf("%s 02:00:00", date), "%Y-%m-%d %H:%M:%S"))
@@ -35,6 +36,6 @@ plot_daily_raw <- function(data, tofile){
   print(s)
 
   if(tofile){
-    #dev.off()
+    dev.off()
   }
 }

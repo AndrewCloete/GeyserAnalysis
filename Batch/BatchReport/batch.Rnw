@@ -7,7 +7,7 @@
 % http://www.LaTeXTemplates.com
 %
 % Original author:
-% Linux and Unix Users Group at Virginia Tech Wiki 
+% Linux and Unix Users Group at Virginia Tech Wiki
 % (https://vtluug.org/wiki/Example_LaTeX_chem_lab_report)
 %
 % License:
@@ -25,7 +25,7 @@
 \usepackage{siunitx} % Provides the \SI{}{} and \si{} command for typesetting SI units
 \usepackage{graphicx} % Required for the inclusion of images
 \usepackage{natbib} % Required to change bibliography style to APA
-\usepackage{amsmath} % Required for some math elements 
+\usepackage{amsmath} % Required for some math elements
 \usepackage[table]{xcolor}
 \usepackage{colortbl}
 \usepackage[caption=false]{subfig}
@@ -101,7 +101,7 @@ Average daily number of events \dotfill \Sexpr{round(mean(b$total_events_count),
 
 <<fig-sub, fig.cap='', fig.subcap=c('Volume', 'Energy'), out.width='.49\\linewidth', results='hide', echo=FALSE, fig.pos="h!", fig.align='center'>>=
 source('~/Geyser/R/Batch/View/plot_batch.r')
-plot_batch_volume(b) 
+plot_batch_volume(b)
 
 plot_batch_energy(b)
 @

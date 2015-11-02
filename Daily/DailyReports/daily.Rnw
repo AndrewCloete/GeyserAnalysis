@@ -7,7 +7,7 @@
 % http://www.LaTeXTemplates.com
 %
 % Original author:
-% Linux and Unix Users Group at Virginia Tech Wiki 
+% Linux and Unix Users Group at Virginia Tech Wiki
 % (https://vtluug.org/wiki/Example_LaTeX_chem_lab_report)
 %
 % License:
@@ -25,7 +25,7 @@
 \usepackage{siunitx} % Provides the \SI{}{} and \si{} command for typesetting SI units
 \usepackage{graphicx} % Required for the inclusion of images
 \usepackage{natbib} % Required to change bibliography style to APA
-\usepackage{amsmath} % Required for some math elements 
+\usepackage{amsmath} % Required for some math elements
 \usepackage[table]{xcolor}
 \usepackage{colortbl}
 
@@ -53,7 +53,7 @@
 %----------------------------------------------------------------------------------------
 
 <<echo=FALSE, results='hide', warning=FALSE>>=
-date <- '2015-10-11'
+date <- '2015-11-01'
 this_geyser <- 107
 geysers <- c(104, 106, 107, 109, 112)
 @
@@ -192,17 +192,19 @@ source('~/Geyser/R/Daily/View/plot_daily_balloon.r')
 events <- read_daily_events(date, this_geyser)
 
 plot_daily_balloon(date, events, FALSE)
-
 @
 
-<<raw, fig.pos="h!", fig.width=15,fig.cap="Raw data", echo=FALSE, results='hide', warning=FALSE>>=
+<<raw1, fig.pos="h!", fig.width=15,fig.cap="Raw data: Temperature and Power", echo=FALSE, results='hide', warning=FALSE>>=
 source('~/Geyser/R/Daily/View/plot_daily_raw.r')
 source('~/Geyser/R/Daily/import_daily.r')
 data = import_daily(date, this_geyser)
 plot_daily_raw(data, FALSE)
 @
 
-
+<<raw2, fig.pos="h!", fig.width=15,fig.cap="Raw data: Volume hot water used", echo=FALSE, results='hide', warning=FALSE>>=
+source('~/Geyser/R/Daily/View/plot_daily_raw_flow.r')
+plot_daily_raw_flow(data, FALSE)
+@
 
 
 \end{document}

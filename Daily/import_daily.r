@@ -4,7 +4,7 @@ source('~/Geyser/R/event_detector.r')
 
 import_daily <- function(date, geyser_id){
 
-    start_time = as.POSIXct(strptime(sprintf("%s 02:00:00", date), "%Y-%m-%d %H:%M:%S"))
+    start_time = as.POSIXct(strptime(sprintf("%s 02:02:00", date), "%Y-%m-%d %H:%M:%S"))
     end_time = start_time + 24*60*60
 
     query = sprintf("select * from timestamps where geyser_id=%d and server_stamp>='%s' and server_stamp<='%s';", geyser_id, start_time, end_time)

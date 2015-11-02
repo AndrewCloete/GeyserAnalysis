@@ -6,8 +6,8 @@ source('~/Geyser/R/Daily/analyse_daily.r')
 # It must be run BEFORE the Rwn is knitted. It must not be called within the Rwn
 # script since knitr SUCKS at debugging!
 
-date <- '2015-10-12'
-geysers <- c(104, 106, 107, 109, 112)
+date <- '2015-11-01'
+geysers <- c(104, 106, 107, 108, 109, 112)
 
 for(i in 1:length(geysers)){
   print(sprintf("Import geyser %g", geysers[i]))

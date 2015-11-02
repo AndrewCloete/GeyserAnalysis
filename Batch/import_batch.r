@@ -4,9 +4,9 @@ source('~/Geyser/R/Daily/analyse_daily.r')
 
 
 geyser_id = 107
-start_date = '2015-10-05'
-end_date = '2015-10-11'
-skip = as.Date(c('2015-09-25', '2015-09-26', '2015-09-27'))
+start_date = '2015-10-26'
+end_date = '2015-11-01'
+skip = as.Date(c('2015-09-25', '2015-09-26', '2015-11-01'))
 
 dates = seq(as.Date(start_date), as.Date(end_date), "days")
 dates <- dates[is.na(match(dates,skip))]
