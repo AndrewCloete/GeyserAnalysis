@@ -53,9 +53,9 @@
 %----------------------------------------------------------------------------------------
 
 <<echo=FALSE, results='hide', warning=FALSE>>=
-date <- '2015-11-01'
+date <- '2015-10-27'
 this_geyser <- 107
-geysers <- c(104, 106, 107, 109, 112)
+geysers <- c(104, 106, 107, 108, 109, 112)
 @
 
 
@@ -182,28 +182,26 @@ kable(lo_events, digits=2)
 
 
 
-
 \newpage
 
 \section{Graphs}
 <<balloon, fig.pos="h!", fig.align='center', fig.width=15,fig.cap="Usage events and volumes", echo=FALSE>>=
-source('~/Geyser/R/Daily/View/plot_daily_balloon.r')
+source('~/Geyser/R/Daily/View/plot_daily.r')
 
 events <- read_daily_events(date, this_geyser)
 
-plot_daily_balloon(date, events, FALSE)
+print(render_daily_balloon(date, events))
 @
 
 <<raw1, fig.pos="h!", fig.width=15,fig.cap="Raw data: Temperature and Power", echo=FALSE, results='hide', warning=FALSE>>=
-source('~/Geyser/R/Daily/View/plot_daily_raw.r')
 source('~/Geyser/R/Daily/import_daily.r')
 data = import_daily(date, this_geyser)
-plot_daily_raw(data, FALSE)
+
+print(render_daily_raw(data))
 @
 
 <<raw2, fig.pos="h!", fig.width=15,fig.cap="Raw data: Volume hot water used", echo=FALSE, results='hide', warning=FALSE>>=
-source('~/Geyser/R/Daily/View/plot_daily_raw_flow.r')
-plot_daily_raw_flow(data, FALSE)
+print(render_daily_raw_flow(data));
 @
 
 

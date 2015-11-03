@@ -56,7 +56,7 @@
 <<echo=FALSE, results='hide', warning=FALSE>>=
 source('~/Geyser/R/Batch/read_batch.r')
 
-geyser_id <- 107
+geyser_id <- 109
 
 
 b <- read_batch(geyser_id)
@@ -101,16 +101,20 @@ Average daily number of events \dotfill \Sexpr{round(mean(b$total_events_count),
 
 <<fig-sub, fig.cap='', fig.subcap=c('Volume', 'Energy'), out.width='.49\\linewidth', results='hide', echo=FALSE, fig.pos="h!", fig.align='center'>>=
 source('~/Geyser/R/Batch/View/plot_batch.r')
-plot_batch_volume(b)
+s <- render_batch_volume(b)
+print(s)
 
-plot_batch_energy(b)
+s <- render_batch_energy(b)
+print(s)
 @
 
 
 <<fig-sub2, fig.cap='', fig.subcap=c('Cost', 'Temperatures'), out.width='.49\\linewidth', results='hide', echo=FALSE, fig.pos="h!", fig.align='center'>>=
-plot_batch_cost(b)
+s <- render_batch_cost(b)
+print(s)
 
-plot_batch_temperature(b)
+s <- render_batch_temperature(b)
+print(s)
 @
 
 
