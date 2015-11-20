@@ -56,7 +56,7 @@
 <<echo=FALSE, results='hide', warning=FALSE>>=
 source('~/Geyser/R/Batch/read_batch.r')
 
-geyser_id <- 109
+geyser_id <- 107
 
 
 b <- read_batch(geyser_id)

@@ -11,8 +11,8 @@ import_daily <- function(date, geyser_id){
     #print(query)
 
 
-      #con <- dbConnect(MySQL(), user="intelligeyser", password="ewhM2Mnscl", dbname="GeyserM2M", host="146.232.128.163")
-      con <- dbConnect(MySQL(), user="root", password="2538", dbname="GeyserM2M", host="localhost")
+      con <- dbConnect(MySQL(), user="intelligeyser", password="ewhM2Mnscl", dbname="GeyserM2M", host="146.232.128.163")
+      #con <- dbConnect(MySQL(), user="root", password="2538", dbname="GeyserM2M", host="localhost")
       rs <- dbSendQuery(con, query)
       data <- fetch(rs, n=1440)
       huh <- dbHasCompleted(rs)

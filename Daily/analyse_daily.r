@@ -51,8 +51,11 @@ analyse_daily <- function(data, events){
 }
 
 
-#output_path <- sprintf('~/Geyser/R/Daily/Output/%d/%s_%d.csv', geyser_id, date, geyser_id)
-#write.table(summary, file = output_path, append = FALSE, quote = TRUE, sep = ",",
-#            eol = "\n", na = "NA", dec = ".", row.names = FALSE,
-#            col.names = TRUE, qmethod = c("escape", "double"),
-#            fileEncoding = "")
+tofile_batch_summary <- function(batch_summary, geyser_id, start_date, end_date){
+
+  output_path <- sprintf('~/Geyser/R/Batch/Output/%d_%s_%s.csv', geyser_id, start_date, end_date)
+  write.table(batch_summary, file = output_path, append = FALSE, quote = TRUE, sep = ",",
+              eol = "\n", na = "NA", dec = ".", row.names = FALSE,
+              col.names = TRUE, qmethod = c("escape", "double"),
+              fileEncoding = "")
+}

@@ -84,7 +84,8 @@ event_detect <- function(data, flow_name, start_threshold, stop_threshold){
 				mean_temp_out <- temp_out_sum/count
 				mean_temp_in <- temp_in_sum/count
 
-				events <- rbind(events, c(start_time, volume_counter, duration, mean_flowrate, mean_temp_out, mean_temp_in))
+				if(duration >= 0.8) # Incase o corrupt timestamps (duration = infinite)
+					events <- rbind(events, c(start_time, volume_counter, duration, mean_flowrate, mean_temp_out, mean_temp_in))
 
 
 				volume_counter <- 0
